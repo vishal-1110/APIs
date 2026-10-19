@@ -1,5 +1,6 @@
 
 using APIs.Middleware;
+using APIs.Services;
 using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Lifetime registrations
+builder.Services.AddTransient<ITransientService, DIService>();
+builder.Services.AddScoped<IScopedService, DIService>();
+builder.Services.AddSingleton<ISingletonService, DIService>();
+
+// Register the secondary consumer as Scoped so it lives for the HTTP request
+builder.Services.AddScoped<DIReporterService>();
 
 // Provided by FluentValidation.DependencyInjectionExtensions:
 // Scans your assembly and registers all validators automatically
