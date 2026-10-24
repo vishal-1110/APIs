@@ -37,6 +37,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRequestTiming();
+
 // Exception handler sits at the top to catch errors downstream
 app.UseExceptionHandler();
 
