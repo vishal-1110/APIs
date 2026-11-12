@@ -28,6 +28,12 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,6 +52,8 @@ app.UseExceptionHandler();
 app.UseMiddleware<RequestExecutionMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
